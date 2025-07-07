@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "Structs/SProductInfo.h"
 #include "Widgets/MainHUDWidget.h"
 #include "ChippyPlayerController.generated.h"
 
@@ -28,5 +29,8 @@ public:
 	class AMainGameMode* MainGameMode;
 
 	UFUNCTION(Client, Unreliable)
-	void AddOrderCard(FName Name, UTexture2D* Image, FColor Color);
+	void AddOrderCard(int OrderID,FProductInfo OrderInfo);
+
+	UFUNCTION(Client, Unreliable)
+	void UpdateOrderCard(int OrderID, float inOrderPay, float inTotalBudget);
 };

@@ -35,12 +35,12 @@ void AItem::BeginPlay()
 	}
 }
 
-void AItem::Init(FProductInfo inAssignedProduct, FColor inAssignedColor)
+void AItem::Init(FProductInfo inAssignedProduct)
 {
 	if (inAssignedProduct.Mesh)
 	{
 		AssignedProduct = inAssignedProduct;
-		MaterialColor = AssignedProduct.Color;
+		MaterialColor = inAssignedProduct.Color.RGBA;
 
 		AssignedProductMesh->SetStaticMesh(AssignedProduct.Mesh.LoadSynchronous());
 

@@ -9,6 +9,7 @@
 #include "Components/BoxComponent.h"
 #include "Components/ArrowComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "GameModes/MainGameMode.h"
 #include "Machine.generated.h"
 
 UENUM(BlueprintType)
@@ -17,6 +18,9 @@ enum class EMachineState : uint8
 	EMS_Idle UMETA(DisplayName = "Idle"),
 	EMS_Occupied UMETA(DisplayName = "Occupied")
 };
+
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnMeshReceived, FProductInfo);
+DECLARE_MULTICAST_DELEGATE(FOnMeshRemoved);
 
 UCLASS()
 class CHIPPY_API AMachine : public AActor
@@ -65,8 +69,19 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Machine")
 	float ButtonsPadding = 100;
 
+	UPROPERTY()
+	AMainGameMode* MainGameMode;
+
+	UPROPERTY()
+	UDataTable* ProductsDataTable;
+
+	TArray<FColorInfo> AvailableColors;
+
 	UPROPERTY(ReplicatedUsing = OnRep_MachineState)
 	EMachineState MachineCurrentState;
+
+	FOnMeshReceived MeshReceivedDelegate;
+	FOnMeshRemoved MeshRemovedDelegate;
 
 	UFUNCTION()
 	void OnRep_MachineState();

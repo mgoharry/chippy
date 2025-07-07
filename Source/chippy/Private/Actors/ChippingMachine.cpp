@@ -7,10 +7,8 @@
 void AChippingMachine::BeginPlay()
 {
 	Super::BeginPlay();
-	if (HasAuthority())
-	{
-		SpawnButtonsOnMachine();
-	}
+
+	SpawnButtonsOnMachine();
 }
 
 void AChippingMachine::SpawnButtonsOnMachine()
@@ -31,8 +29,14 @@ void AChippingMachine::SpawnButtonsOnMachine()
 					ButtonsPadding));
 				AMachineButton* ButtonMachine = GetWorld()->SpawnActor<AMachineButton>(
 					MachineButtonClass, Loc, FRotator::ZeroRotator);
+				ButtonMachine->SetButtonType(EButtonType::EBT_Chip);
 				ButtonMachine->Init(*Products[i]);
 				ButtonMachine->MachineButtonActivatedDelegate.BindUFunction(this, "ModifyProduct");
+
+				MeshReceivedDelegate.AddUFunction(ButtonMachine,
+												  "AssignProductMeshToPreview");
+				MeshRemovedDelegate.AddUFunction(ButtonMachine,
+												 "RemoveProductPreviewMesh");
 			}
 
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Emerald,
@@ -45,13 +49,10 @@ void AChippingMachine::ModifyProduct(FProductInfo ProductToCreate)
 {
 	Super::ModifyProduct(ProductToCreate);
 
-	// Spawn the product actor on server at the specified location
 	if (CurrentProductRef && HasAuthority() && GetMachineState() == EMachineState::EMS_Occupied)
 	{
+		ProductToCreate.Color = CurrentProductRef->AssignedProduct.Color;
 		CurrentProductRef->Init(ProductToCreate);
-
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Emerald,
-		                                 FString::Printf(TEXT("%s Product is created!"), *ProductToCreate.Name));
 	}
 }
 
@@ -72,4 +73,3 @@ void AChippingMachine::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor*
 {
 	Super::OnOverlapEnd(OverlappedComp, OtherActor, OtherComp, OtherBodyIndex);
 }
-

@@ -14,6 +14,7 @@ void AColoringMachine::SpawnButtonsOnMachine()
 {
 	Super::SpawnButtonsOnMachine();
 
+
 	if (HasAuthority() && !AvailableColors.IsEmpty())
 	{
 		// Spawn buttons on the server for each product in the data table
@@ -26,7 +27,7 @@ void AColoringMachine::SpawnButtonsOnMachine()
 					ButtonsPadding));
 				AMachineButton* ButtonMachine = GetWorld()->SpawnActor<AMachineButton>(
 					MachineButtonClass, Loc, FRotator::ZeroRotator);
-
+				ButtonMachine->SetButtonType(EButtonType::EBT_Color);
 				ButtonMachine->Init(AvailableColors[i]);
 				ButtonMachine->MachineButtonActivatedDelegate.BindUFunction(this, "ModifyProduct");
 				ButtonMachine->MachineRef = this;
@@ -35,10 +36,6 @@ void AColoringMachine::SpawnButtonsOnMachine()
 				MeshRemovedDelegate.AddUFunction(ButtonMachine,
 				                                 "RemoveProductPreviewMesh");
 			}
-
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Emerald,
-			                                 FString::Printf(
-				                                 TEXT("%s button created!"), *AvailableColors[i].ToString()));
 		}
 	}
 }
@@ -50,16 +47,13 @@ void AColoringMachine::ModifyProduct(FProductInfo ProductToCreate)
 	if (CurrentProductRef && HasAuthority() && GetMachineState() == EMachineState::EMS_Occupied)
 	{
 		CurrentProductRef->Init(ProductToCreate);
-
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Emerald,
-		                                 FString::Printf(TEXT("%s Product is colored!"), *ProductToCreate.Name));
 	}
 }
 
 void AColoringMachine::ClearProduct()
 {
 	Super::ClearProduct();
-	MeshRemovedDelegate.Broadcast();
+	
 }
 
 void AColoringMachine::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
@@ -67,11 +61,7 @@ void AColoringMachine::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActo
                                       const FHitResult& SweepResult)
 {
 	Super::OnOverlapBegin(OverlappedComp, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
-
-	if (CurrentProductRef)
-	{
-		MeshReceivedDelegate.Broadcast(CurrentProductRef->AssignedProduct.Mesh);
-	}
+	
 }
 
 void AColoringMachine::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,

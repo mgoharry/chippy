@@ -13,6 +13,9 @@ AMachineButton::AMachineButton()
 
 	ButtonMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Button Mesh"));
 	ButtonMesh->SetupAttachment(RootComponent);
+
+	ProductSpawnLocation = CreateDefaultSubobject<UArrowComponent>(TEXT("Product Spawn Location"));
+	ProductSpawnLocation->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -21,6 +24,10 @@ void AMachineButton::BeginPlay()
 	Super::BeginPlay();
 
 	MovementComponent = GetComponentByClass<UInterpToMovementComponent>();
+
+	InitialMesh = AssignedProductMesh->GetStaticMesh();
+
+	if (GetButtonType() == EButtonType::EBT_Create) MaterialColor = InitialColor;
 
 	CreateDynamicMaterial();
 }
@@ -40,9 +47,27 @@ void AMachineButton::Interact(AchippyCharacter* InteractingCharacter)
 		                                false);
 	}
 
-	AssignedProduct.Color = MaterialColor;
-	AssignedProduct.Mesh = AssignedProductMesh->GetStaticMesh();
-	if (!InteractingCharacter || !AssignedProduct.Mesh) return;
+	switch (GetButtonType())
+	{
+	case EButtonType::EBT_Create:
+		GetWorld()->SpawnActor<AProduct>(ProductClass, ProductSpawnLocation->GetComponentTransform());
+		break;
+	case EButtonType::EBT_Chip:
+		AssignedProduct.Mesh = AssignedProductMesh->GetStaticMesh();
+		break;
+
+	case EButtonType::EBT_Color:
+		AssignedProduct.Color.RGBA = MaterialColor;
+		break;
+
+	default:
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Emerald, FString::Printf(TEXT("Default!")));
+	}
+
+	//AssignedProduct.Mesh = AssignedProductMesh->GetStaticMesh();
+	//AssignedProduct.Color.RGBA = MaterialColor;
+	if (!InteractingCharacter) return;
+
 	MachineButtonActivatedDelegate.ExecuteIfBound(AssignedProduct);
 }
 
@@ -52,46 +77,34 @@ void AMachineButton::ResetPressTimer()
 	MovementComponent->StopMovementImmediately();
 }
 
-void AMachineButton::Init(FProductInfo inAssignedProduct, FColor inAssignedColor)
+void AMachineButton::Init(FProductInfo inAssignedProduct)
 {
-	Super::Init(inAssignedProduct, inAssignedColor);
+	Super::Init(inAssignedProduct);
 
-	MaterialColor = inAssignedColor;
+	MaterialColor = InitialColor;
 
 	if (ButtonDynamicMaterial)
 		ButtonDynamicMaterial->SetVectorParameterValue("BaseColor", MaterialColor);
 
 	if (AssignedMeshMaterial)
-		AssignedMeshMaterial->SetVectorParameterValue("InnerColor", MaterialColor);
+		AssignedMeshMaterial->SetVectorParameterValue("BaseColor", MaterialColor);
 }
 
-void AMachineButton::Init(FColor inAssignedColor)
+void AMachineButton::Init(FColorInfo inAssignedColor)
 {
-	MaterialColor = inAssignedColor;
+	MaterialColor = inAssignedColor.RGBA;
+
+	if (AssignedMeshMaterial)
+		AssignedMeshMaterial->SetVectorParameterValue("BaseColor", MaterialColor);
 
 	if (ButtonDynamicMaterial)
 		ButtonDynamicMaterial->SetVectorParameterValue("BaseColor", MaterialColor);
-
-	if (AssignedMeshMaterial)
-		AssignedMeshMaterial->SetVectorParameterValue("InnerColor", MaterialColor);
 }
 
 void AMachineButton::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AMachineButton, MaterialColor)
-}
-
-void AMachineButton::OnRep_AssignedMeshColor()
-{
-	if (AssignedMeshMaterial)
-		AssignedMeshMaterial->SetVectorParameterValue("InnerColor", MaterialColor);
-}
-
-void AMachineButton::OnRep_ButtonColor()
-{
-	if (ButtonDynamicMaterial)
-		ButtonDynamicMaterial->SetVectorParameterValue("BaseColor", MaterialColor);
 }
 
 void AMachineButton::CreateDynamicMaterial()
@@ -117,25 +130,54 @@ void AMachineButton::CreateDynamicMaterial()
 
 			if (AssignedMeshMaterial)
 			{
-				AssignedMeshMaterial->SetVectorParameterValue("InnerColor", MaterialColor);
+				AssignedMeshMaterial->SetVectorParameterValue("BaseColor", MaterialColor);
 			}
 		}
 	}
 }
 
-void AMachineButton::AssignProductMeshToPreview(TSoftObjectPtr<UStaticMesh> inMesh)
+void AMachineButton::AssignProductMeshToPreview(FProductInfo inProductInfo)
 {
-	if (inMesh)
+	if (!inProductInfo.Mesh) return;
+
+	switch (GetButtonType())
 	{
-		AssignedProductMesh->SetStaticMesh(inMesh.LoadSynchronous());
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Assigned product mesh is not set!"));
+	case EButtonType::EBT_Chip:
+		MaterialColor = inProductInfo.Color.RGBA;
+		if (AssignedMeshMaterial)
+		{
+			AssignedMeshMaterial->SetVectorParameterValue("BaseColor", MaterialColor);
+		}
+		break;
+
+	case EButtonType::EBT_Color:
+		AssignedProduct = inProductInfo;
+		AssignedProductMesh->SetStaticMesh(inProductInfo.Mesh.LoadSynchronous());
+		break;
+
+	default:
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Emerald, FString::Printf(TEXT("Default!")));
 	}
 }
 
-void AMachineButton::RemoveProductPreviewMesh() const
+void AMachineButton::RemoveProductPreviewMesh()
 {
-	if (AssignedProductMesh) AssignedProductMesh->SetStaticMesh(nullptr);
+	switch (GetButtonType())
+	{
+	case EButtonType::EBT_Chip:
+		MaterialColor = InitialColor;
+		if (AssignedMeshMaterial)
+		{
+			AssignedMeshMaterial->SetVectorParameterValue("BaseColor", MaterialColor);
+		}
+		break;
+
+	case EButtonType::EBT_Color:
+		AssignedProduct = FProductInfo();
+		if (InitialMesh) AssignedProductMesh->SetStaticMesh(InitialMesh);
+		break;
+
+	default:
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Emerald, FString::Printf(TEXT("Default!")));
+	}
 }

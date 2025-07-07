@@ -26,7 +26,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 
-	virtual void Init(FProductInfo inAssignedProduct, FColor inAssignedColor = FColor::White);
+	virtual void Init(FProductInfo inAssignedProduct);
 
 	virtual void Interact(AchippyCharacter* InteractingCharacter) override;
 

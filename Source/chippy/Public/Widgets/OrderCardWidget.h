@@ -19,7 +19,7 @@ class CHIPPY_API UOrderCardWidget : public UUserWidget
 public:
 	UPROPERTY(meta = (BindWidget))
 	UImage* ProductImage;
-	
+
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* ProductInfo;
 };

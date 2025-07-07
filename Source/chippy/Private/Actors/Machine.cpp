@@ -35,6 +35,14 @@ void AMachine::BeginPlay()
 		BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &AMachine::OnOverlapBegin);
 		BoxComponent->OnComponentEndOverlap.AddDynamic(this, &AMachine::OnOverlapEnd);
 	}
+
+	MainGameMode = GetWorld()->GetAuthGameMode<AMainGameMode>();
+
+	if (MainGameMode)
+	{
+		ProductsDataTable = MainGameMode->ProductsDataTable;
+		AvailableColors = MainGameMode->AvailableColors;
+	}
 }
 
 void AMachine::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
@@ -62,6 +70,7 @@ void AMachine::ModifyProduct(FProductInfo ProductToCreate)
 
 void AMachine::ClearProduct()
 {
+	MeshRemovedDelegate.Broadcast();
 	CurrentProductRef->ProductReleasedDelegate.Unbind();
 	SetMachineState(EMachineState::EMS_Idle);
 	CurrentProductRef = nullptr;
@@ -91,10 +100,13 @@ void AMachine::OnRep_MachineState()
 void AMachine::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
                               int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	if (GetMachineState() == EMachineState::EMS_Occupied) return;
+
 	if (AProduct* OverlappedActor = Cast<AProduct>(OtherActor))
 	{
 		CurrentProductRef = OverlappedActor;
 		SetMachineState(EMachineState::EMS_Occupied);
+		MeshReceivedDelegate.Broadcast(CurrentProductRef->AssignedProduct);
 		CurrentProductRef->ProductReleasedDelegate.BindUFunction(this, "ClearProduct");
 		CurrentProductRef->GetSphereComponent()->SetSimulatePhysics(false);
 		CurrentProductRef->SetActorTransform(CreatedProductSpawnLocation->GetComponentTransform());

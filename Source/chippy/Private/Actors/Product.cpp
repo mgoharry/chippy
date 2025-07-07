@@ -10,6 +10,12 @@
 AProduct::AProduct()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+	if (HasAuthority())
+	{
+		SphereComponent->SetSimulatePhysics(true);
+		SetActorEnableCollision(true);
+	}
 }
 
 void AProduct::BeginPlay()
@@ -18,9 +24,9 @@ void AProduct::BeginPlay()
 	AssignedProduct.Mesh = AssignedProductMesh->GetStaticMesh();
 }
 
-void AProduct::Init(FProductInfo inProductInfo, FColor inAssignedColor)
+void AProduct::Init(FProductInfo inAssignedProduct)
 {
-	Super::Init(inProductInfo, inAssignedColor);
+	Super::Init(inAssignedProduct);
 }
 
 

@@ -7,6 +7,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/TextBlock.h"
 #include "Components/VerticalBox.h"
+#include "Structs/SProductInfo.h"
 #include "MainHUDWidget.generated.h"
 
 /**
@@ -18,20 +19,26 @@ class CHIPPY_API UMainHUDWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget), BlueprintReadWrite, EditAnywhere)
 	UVerticalBox* CardsVerticalBox;
 
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget), BlueprintReadWrite, EditAnywhere)
 	UTextBlock* CurrentBudgetText;
 
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget), BlueprintReadWrite, EditAnywhere)
 	UTextBlock* BudgetEditText;
-	
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
 	TSubclassOf<UOrderCardWidget> OrderCardWidgetClass;
 
-	void AddOrderCard(FString Name, UTexture2D* Image, FColor Color);
+	UPROPERTY()
+	TMap<int, UOrderCardWidget*> ActiveOrdersWidgets;
 
-	void RemoveOrderCard();
+	void AddOrderCard(int OrderID, FProductInfo OrderInfo);
+
+	void UpdateAndRemoveOrder(int OrderID, float inOrderPay, float inTotalBudget);
+
+	UFUNCTION(BlueprintNativeEvent)
+	void OrderPayAnimation(float inOrderPay);
 };

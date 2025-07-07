@@ -9,11 +9,6 @@
 /**
  * 
  */
-
-
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnMeshReceived, TSoftObjectPtr<UStaticMesh>);
-DECLARE_MULTICAST_DELEGATE(FOnMeshRemoved);
-
 UCLASS()
 class CHIPPY_API AColoringMachine : public AMachine
 {
@@ -22,8 +17,6 @@ class CHIPPY_API AColoringMachine : public AMachine
 public:
 	virtual void BeginPlay() override;
 
-	FOnMeshReceived MeshReceivedDelegate;
-	FOnMeshRemoved MeshRemovedDelegate;
 
 private:
 	virtual void SpawnButtonsOnMachine() override;
@@ -32,9 +25,6 @@ private:
 
 	virtual void ClearProduct() override;
 
-
-	UPROPERTY(EditDefaultsOnly, Category = "Machine")
-	TArray<FColor> AvailableColors;
 
 	virtual void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 	                            int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;

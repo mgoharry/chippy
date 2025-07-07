@@ -14,6 +14,8 @@ void AChippyPlayerController::BeginPlay()
 	if (MainGameMode)
 	{
 		MainGameMode->PlayerControllers.Add(this);
+		MainGameMode->OnAddCardDelegate.AddUFunction(this, "AddOrderCard");
+		MainGameMode->OnProductDeliveryDelegate.AddUFunction(this, "UpdateOrderCard");
 	}
 	if (MainHUDWidgetClass && IsLocalController())
 	{
@@ -22,10 +24,20 @@ void AChippyPlayerController::BeginPlay()
 	}
 }
 
-void AChippyPlayerController::AddOrderCard_Implementation(FName Name, UTexture2D* Image, FColor Color)
+
+void AChippyPlayerController::UpdateOrderCard_Implementation(int OrderID, float inOrderPay, float inTotalBudget)
 {
 	if (MainHUDWidget)
 	{
-		MainHUDWidget->AddOrderCard(Name.ToString(), Image, Color);
+		MainHUDWidget->UpdateAndRemoveOrder(OrderID, inOrderPay, inTotalBudget);
+	}
+}
+
+
+void AChippyPlayerController::AddOrderCard_Implementation(int OrderID, FProductInfo OrderInfo)
+{
+	if (MainHUDWidget)
+	{
+		MainHUDWidget->AddOrderCard(OrderID, OrderInfo);
 	}
 }

@@ -6,10 +6,20 @@
 #include "GameFramework/Actor.h"
 #include <Components/InterpToMovementComponent.h>
 #include "Item.h"
+#include "Components/ArrowComponent.h"
 #include "MachineButton.generated.h"
 
+class AProduct;
 DECLARE_DELEGATE_OneParam(FOnMachineButtonActivated, FProductInfo);
 
+UENUM(BlueprintType)
+enum class EButtonType : uint8
+{
+	EBT_None UMETA(DisplayName = "None"),
+	EBT_Create UMETA(DisplayName = "Create"),
+	EBT_Chip UMETA(DisplayName = "Chip"),
+	EBT_Color UMETA(DisplayName = "Color")
+};
 
 UCLASS()
 class CHIPPY_API AMachineButton : public AItem
@@ -38,12 +48,15 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
 	UInterpToMovementComponent* MovementComponent;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
+	UArrowComponent* ProductSpawnLocation;
+
 public:
 	virtual void Interact(AchippyCharacter* InteractingCharacter) override;
 
-	virtual void Init(FProductInfo inAssignedProduct, FColor inAssignedColor = FColor::White);
+	virtual void Init(FProductInfo inAssignedProduct) override;
 
-	virtual void Init(FColor inAssignedColor = FColor::White);
+	virtual void Init(FColorInfo inAssignedColor);
 
 	FOnMachineButtonActivated MachineButtonActivatedDelegate;
 
@@ -55,23 +68,29 @@ public:
 	UPROPERTY()
 	UMaterialInstanceDynamic* ButtonDynamicMaterial;
 
-	UPROPERTY(ReplicatedUsing = OnRep_ButtonColor)
-	FLinearColor ButtonMaterialColor;
-
-	UPROPERTY(ReplicatedUsing = OnRep_AssignedMeshColor)
-	FLinearColor AssignedMeshMaterialColor;
-
-	UFUNCTION()
-	void OnRep_AssignedMeshColor();
-
-	UFUNCTION()
-	void OnRep_ButtonColor();
 	void CreateDynamicMaterial();
 
+	UFUNCTION()
+	void AssignProductMeshToPreview(FProductInfo inProductInfo);
 
 	UFUNCTION()
-	void AssignProductMeshToPreview(TSoftObjectPtr<UStaticMesh> inMesh);
+	void RemoveProductPreviewMesh();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Config")
+	TSubclassOf<AProduct> ProductClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Config")
+	EButtonType ButtonType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Config")
+	FColor InitialColor;
+
+	UPROPERTY()
+	UStaticMesh* InitialMesh;
 
 	UFUNCTION()
-	void RemoveProductPreviewMesh() const;
+	FORCEINLINE EButtonType GetButtonType() const { return ButtonType; }
+
+	UFUNCTION()
+	FORCEINLINE void SetButtonType(EButtonType inButtonType) { ButtonType = inButtonType; }
 };

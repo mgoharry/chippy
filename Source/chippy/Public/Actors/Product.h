@@ -18,7 +18,7 @@ public:
 	AProduct();
 	virtual void BeginPlay() override;
 
-	virtual void Init(FProductInfo inAssignedProduct, FColor inAssignedColor = FColor::White) override;
+	virtual void Init(FProductInfo inAssignedProduct) override;
 
 	FProductReleased ProductReleasedDelegate;
 
