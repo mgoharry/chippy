@@ -38,14 +38,15 @@ void AItem::BeginPlay()
  */
 void AItem::Init(FProductInfo inAssignedProduct)
 {
-	if (inAssignedProduct.Mesh)
+	if (inAssignedProduct.Mesh.LoadSynchronous())
 	{
 		AssignedProduct = inAssignedProduct;
 		MaterialColor = inAssignedProduct.Color.RGBA;
+
 		ProductAnimationAsset = AssignedProduct.Animation;
 		ReplicatedSkeletalMesh = inAssignedProduct.Mesh.LoadSynchronous();
 
-		AssignedProductMesh->SetSkeletalMeshAsset(AssignedProduct.Mesh.LoadSynchronous());
+		AssignedProductMesh->SetSkeletalMeshAsset(ReplicatedSkeletalMesh);
 		AssignedProductMesh->PlayAnimation(AssignedProduct.Animation, true);
 
 		if (ProductDynamicMaterial)

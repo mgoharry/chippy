@@ -44,7 +44,7 @@ void AMainGameMode::GenerateOrder()
 	//Get Random product data from the provided data table in blueprints
 	int RandomProductIndex = FMath::RandRange(0, ProductsArray.Num() - 1);
 	FName OrderName = FName(ProductsArray[RandomProductIndex]->Name);
-	TSoftObjectPtr<UStaticMesh> OrderMesh = ProductsArray[RandomProductIndex]->Mesh;
+	TSoftObjectPtr<USkeletalMesh> OrderMesh = ProductsArray[RandomProductIndex]->Mesh;
 	TSoftObjectPtr<UTexture2D> OrderTexture = ProductsArray[RandomProductIndex]->Texture;
 
 	//Get Random Color data from the provided array in blueprints

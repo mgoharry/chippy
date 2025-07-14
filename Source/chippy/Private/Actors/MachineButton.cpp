@@ -86,12 +86,6 @@ void AMachineButton::Init(FProductInfo inAssignedProduct)
 {
 	Super::Init(inAssignedProduct);
 
-	AssignedProductMesh->SetSkeletalMeshAsset(AssignedProduct.Mesh.LoadSynchronous());
-
-	ReplicatedSkeletalMesh = inAssignedProduct.Mesh.LoadSynchronous();
-
-	MaterialColor = InitialColor;
-
 	//Sets button's color 
 	if (ButtonDynamicMaterial)
 		ButtonDynamicMaterial->SetVectorParameterValue("BaseColor", MaterialColor);
