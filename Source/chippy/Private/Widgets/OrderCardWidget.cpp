@@ -3,3 +3,7 @@
 
 #include "Widgets/OrderCardWidget.h"
 
+void UOrderCardWidget::BP_RemoveCard_Implementation()
+{
+	//bp native event to remove card and play animation
+}

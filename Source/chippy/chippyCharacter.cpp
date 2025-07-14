@@ -11,6 +11,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "ActorComponents/InteractionComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -52,7 +53,7 @@ AchippyCharacter::AchippyCharacter()
 	// Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
-	
+
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 }
@@ -101,7 +102,6 @@ void AchippyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		                                   &AchippyCharacter::HandleInteract);
 
 		EnhancedInputComponent->BindAction(DropAction, ETriggerEvent::Started, this, &AchippyCharacter::HandleDrop);
-
 	}
 	else
 	{
@@ -111,6 +111,7 @@ void AchippyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		       ), *GetNameSafe(this));
 	}
 }
+
 
 void AchippyCharacter::Move(const FInputActionValue& Value)
 {
@@ -148,12 +149,49 @@ void AchippyCharacter::Look(const FInputActionValue& Value)
 	}
 }
 
+/** Called for interacting input */
 void AchippyCharacter::HandleInteract()
 {
-	if (InteractionComponent) InteractionComponent->PerformLineTrace();
+	if (InteractionComponent) InteractionComponent->Interact();
 }
 
+/** Called for dropping input */
 void AchippyCharacter::HandleDrop()
 {
 	if (InteractionComponent) InteractionComponent->DropProduct();
+}
+
+void AchippyCharacter::ChippyPlayAnimations(UAnimMontage* AnimationToPlay)
+{
+	MC_ChippyPlayAnimations(AnimationToPlay);
+}
+
+
+void AchippyCharacter::MC_ChippyPlayAnimations_Implementation(UAnimMontage* AnimationToPlay)
+{
+	if (AnimationToPlay)
+	{
+		PlayAnimMontage(AnimationToPlay);
+	}
+}
+
+void AchippyCharacter::ChippyPlayVFX(UNiagaraComponent* VFXToPlay)
+{
+	MC_ChippyPlayVFX(VFXToPlay);
+}
+
+
+void AchippyCharacter::MC_ChippyPlayVFX_Implementation(UNiagaraComponent* VFXToPlay)
+{
+	if (VFXToPlay && VFXToPlay->GetAsset()) VFXToPlay->Activate();
+}
+
+void AchippyCharacter::ChippyPlaySFX(USoundBase* SFXToPlay, FVector Location)
+{
+	MC_ChippyPlaySFX(SFXToPlay, Location);
+}
+
+void AchippyCharacter::MC_ChippyPlaySFX_Implementation(USoundBase* SFXToPlay, FVector Location)
+{
+	if (SFXToPlay) UGameplayStatics::PlaySoundAtLocation(this, SFXToPlay, Location);
 }

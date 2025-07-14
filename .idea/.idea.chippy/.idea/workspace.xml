@@ -14,36 +14,119 @@
   <component name="ChangeListManager">
     <list default="true" id="f68b8af5-78c5-4b22-8b04-1c5a364bf3eb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.chippy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.chippy/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEditor.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEditor.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Blueprints/Actors/BP_ChippingMachine.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Actors/BP_ChippingMachine.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Blueprints/Actors/BP_ColoringMachine.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Actors/BP_ColoringMachine.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Actors/BP_DeliveryMachine.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Actors/BP_DeliveryMachine.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Blueprints/Actors/BP_MachinesButton.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Actors/BP_MachinesButton.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Actors/BP_Product.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Actors/BP_Product.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Actors/BP_Product.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Characters/BP_PlayerCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Characters/BP_PlayerCharacter.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Blueprints/DataTables/DT_Products.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/DataTables/DT_Products.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Blueprints/GameModes/BP_MainGameMode.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/GameModes/BP_MainGameMode.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Materials/M_Hologram.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Materials/M_Hologram.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Materials/M_Hologram.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Materials/M_Hologram_Inst.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Materials/M_Hologram_Inst_Cone.uasset" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Blueprints/Widgets/WBP_MainHUD.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Widgets/WBP_MainHUD.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Blueprints/Widgets/WBP_OrderCard.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Widgets/WBP_OrderCard.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/8/UO/SAC9YG84DZAO55HXCU74UN.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Characters/Mannequins/Animations/ABP_Manny.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Characters/Mannequins/Animations/ABP_Manny.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Characters/Mannequins/Meshes/SKM_Manny.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Characters/Mannequins/Meshes/SKM_Manny.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Characters/Mannequins/Meshes/SK_Mannequin.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Characters/Mannequins/Meshes/SK_Mannequin.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Animals/Chicken_001.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Animals/Chicken_001_Anim_Chicken_001_idle.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Animals/Chicken_001_Anim_Chicken_002_run.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Animals/Chicken_001_Anim_Chicken_003_walk.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Animals/Chicken_001_PhysicsAsset.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Animals/Chicken_001_Skeleton.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Animals/Dog_001.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Animals/Dog_001_Anim_Dog_001_idle.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Models/Animals/Dog_001_Anim_Dog_001_idle.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Animals/Dog_001_Anim_Dog_001_run.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Animals/Dog_001_Anim_Dog_001_walk.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Animals/Dog_001_PhysicsAsset.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Animals/Dog_001_Skeleton.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Animals/Kitty_001.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Animals/Kitty_001_Anim_Kitty_001_idle.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Animals/Kitty_001_Anim_Kitty_001_run.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Animals/Kitty_001_Anim_Kitty_001_walk.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Animals/Kitty_001_PhysicsAsset.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Animals/Kitty_001_Skeleton.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Animals/Texture_1.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Animals/material.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Animals/material2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Models/Animals/material2.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Models/Animals/material_003.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Models/Animals/material_003.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/0/FZ/4XWWUGWFDLX56REQRH8Z9W.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/0/SX/SKO7AH9HKZVPN4OMFO4DV3.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/1/0G/HOAJZN9E4DDI6Y1W3JU13K.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/1/2J/AQ1PWWT9TBAI7AA470T014.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/1/EJ/PGUWWHRTS59S34GKBX0OUI.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/1/EJ/PGUWWHRTS59S34GKBX0OUI.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/1/HF/YFYBQ72OYLHJQS0TSSXGBV.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/1/QS/VHQF8JWOATZI5V3ZVY5YTM.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/1/WU/NB37RT5Q32Z8MJWD8BD2SO.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/2/66/0OP5U85W4H0R7CHG999ZDN.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/2/66/0OP5U85W4H0R7CHG999ZDN.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/2/M5/FKLLGUZ0966AOE4Y96G2RA.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/3/1V/XSFYSB2EC9Z21RQOBXZLMO.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/3/B1/9G3WNX7WIR7UKI26T9LK5O.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/3/HE/U35NZS5A9W1UXP1E3FF2GW.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/3/HE/U35NZS5A9W1UXP1E3FF2GW.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/3/OG/KDQDMXAXZXD8VLDDU4K3JL.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/3/OG/KDQDMXAXZXD8VLDDU4K3JL.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/3/P3/O43ETCZTFMLWWH1CJ941H2.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/5/0R/V3JGIDL7KOUN40CIROQIEG.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/5/Q1/5IZD4L3UPM3EEODZK67MH1.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/6/0D/0WM78RPJCXHX477YOZXKQE.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/6/NC/UUYHDUFQAXTRRN4RVOPIUF.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/6/NP/Z9EK2TXQ1TFO26WFZHWZII.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/6/NP/Z9EK2TXQ1TFO26WFZHWZII.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/6/UV/1C6W14EIHMXOXXB657JYKB.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/8/7Y/C94R5C0R01QSL2SVHUG3KD.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/8/H9/GITN2HJQNERMM41FAE68W0.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/8/H9/GITN2HJQNERMM41FAE68W0.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/8/P1/NN84RP20JNUCL0SHI5W2B8.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/9/21/WWYX44RDCCS98492P9K9O3.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/9/6I/RU1L28PS820IOVH625A0DA.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/9/CI/KST702KSCRZWYV56G3VJBD.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/9/CI/KST702KSCRZWYV56G3VJBD.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/9/MO/72II2GSLK9VS0ULW9SACWH.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/9/MO/72II2GSLK9VS0ULW9SACWH.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/9/S9/KDPDFHQ48AWPB4PQXOQ9C6.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/A/BW/M7Z5RX3O7568TBJFK5R76I.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/A/IO/07IVU4EY14FMETPGTJULEO.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/B/3U/FQ9LE1YW87MPDRGGSCKZEM.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/B/CJ/ZQ5BFL59YGMQUT9ZD7CAHJ.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/C/0I/VIQQWOEJKSKV1EK1XGX3EY.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/C/0I/VIQQWOEJKSKV1EK1XGX3EY.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/C/24/JCB6D45ZZNOU4TG9YOONXF.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/C/24/JCB6D45ZZNOU4TG9YOONXF.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/D/DE/SWSI13675DVYIZ0N4NF7Y3.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/D/DE/SWSI13675DVYIZ0N4NF7Y3.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/D/MM/5416TNIX8GKJW3B714Y6WF.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/D/OI/BVNTLHAPOPDXURSVGR63ME.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/D/VL/KUT2U1MQ1ND9CXN070OTDM.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/D/YL/SR95RCPZ5OVUTCHG7L4ASW.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/D/YL/SR95RCPZ5OVUTCHG7L4ASW.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/E/T8/46ZIBNTTDDR3AOR2XC9VO6.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/chippy/Private/ActorComponents/InteractionComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Private/ActorComponents/InteractionComponent.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/chippy/Private/Actors/ChippingMachine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Private/Actors/ChippingMachine.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/chippy/Private/Actors/ColoringMachine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Private/Actors/ColoringMachine.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/chippy/Private/Actors/DeliveryMachine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Private/Actors/DeliveryMachine.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/chippy/Private/Actors/Item.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Private/Actors/Item.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/chippy/Private/Actors/Machine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Private/Actors/Machine.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/chippy/Private/Actors/MachineButton.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Private/Actors/MachineButton.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/chippy/Private/Actors/Product.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Private/Actors/Product.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/chippy/Private/GameModes/MainGameMode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Private/GameModes/MainGameMode.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/chippy/Private/Interfaces/Interactable.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Private/Interfaces/Interactable.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/chippy/Private/PlayerControllers/ChippyPlayerController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Private/PlayerControllers/ChippyPlayerController.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/chippy/Private/Widgets/MainHUDWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Private/Widgets/MainHUDWidget.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/chippy/Private/Widgets/OrderCardWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Private/Widgets/OrderCardWidget.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/chippy/Public/ActorComponents/InteractionComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Public/ActorComponents/InteractionComponent.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/chippy/Public/Actors/ChippingMachine.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Public/Actors/ChippingMachine.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/chippy/Public/Actors/ColoringMachine.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Public/Actors/ColoringMachine.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/chippy/Public/Actors/DeliveryMachine.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Public/Actors/DeliveryMachine.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/chippy/Public/Actors/Item.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Public/Actors/Item.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/chippy/Public/Actors/Machine.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Public/Actors/Machine.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/chippy/Public/Actors/MachineButton.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Public/Actors/MachineButton.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/chippy/Public/Actors/Product.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Public/Actors/Product.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/chippy/Public/GameModes/MainGameMode.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Public/GameModes/MainGameMode.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/chippy/Public/Interfaces/Interactable.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Public/Interfaces/Interactable.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/chippy/Public/PlayerControllers/ChippyPlayerController.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Public/PlayerControllers/ChippyPlayerController.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/chippy/Public/Structs/SProductInfo.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Public/Structs/SProductInfo.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/chippy/Public/Widgets/MainHUDWidget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Public/Widgets/MainHUDWidget.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/chippy/Public/Widgets/OrderCardWidget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/Public/Widgets/OrderCardWidget.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/chippy/chippy.Build.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/chippy.Build.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/chippy/chippyCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/chippyCharacter.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/chippy/chippyCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/chippyCharacter.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/chippy/chippyGameMode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/chippy/chippyGameMode.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chippy.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/chippy.sln.DotSettings.user" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,9 +147,21 @@
     <setting file="file://$PROJECT_DIR$/Source/chippy/Public/Actors/ChippingMachine.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/chippy/Public/Actors/ColoringMachine.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/chippy/Public/Actors/DeliveryMachine.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://S:/GameDev/UE_5.5/Engine/Source/Runtime/Core/Public/Algo/Reverse.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://S:/GameDev/UE_5.5/Engine/Source/Runtime/Core/Public/Containers/Map.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://S:/GameDev/UE_5.5/Engine/Source/Runtime/Core/Public/Delegates/DelegateSignatureImpl.inl" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://S:/GameDev/UE_5.5/Engine/Source/Runtime/CoreUObject/Public/UObject/Object.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://S:/GameDev/UE_5.5/Engine/Source/Runtime/CoreUObject/Public/UObject/SoftObjectPtr.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://S:/GameDev/UE_5.5/Engine/Source/Runtime/Engine/Classes/Components/MeshComponent.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://S:/GameDev/UE_5.5/Engine/Source/Runtime/Engine/Classes/Components/SkeletalMeshComponent.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://S:/GameDev/UE_5.5/Engine/Source/Runtime/Engine/Classes/GameFramework/GameMode.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://S:/GameDev/UE_5.5/Engine/Source/Runtime/Engine/Classes/GameFramework/GameModeBase.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://S:/GameDev/UE_5.5/Engine/Source/Runtime/Engine/Private/StaticMesh.cpp" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 4
@@ -213,7 +308,13 @@
       <workItem from="1751732700955" duration="8307000" />
       <workItem from="1751750041474" duration="15122000" />
       <workItem from="1751828378905" duration="2414000" />
-      <workItem from="1751834573694" duration="22096000" />
+      <workItem from="1751834573694" duration="22698000" />
+      <workItem from="1751997721212" duration="20139000" />
+      <workItem from="1752031314366" duration="8539000" />
+      <workItem from="1752122308435" duration="10681000" />
+      <workItem from="1752356541256" duration="13898000" />
+      <workItem from="1752418398132" duration="4823000" />
+      <workItem from="1752447252297" duration="8342000" />
     </task>
     <servers />
   </component>
@@ -240,11 +341,6 @@
           <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
           <option name="timeStamp" value="3" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Source/chippy/Public/Actors/ChippingMachine.h</url>
-          <line>4</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

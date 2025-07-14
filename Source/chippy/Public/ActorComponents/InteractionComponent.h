@@ -1,72 +1,78 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Component that handles interaction with interactable objects and product carrying mechanics
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Actors/Product.h"
-#include "Components/ActorComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Components/ActorComponent.h"
 #include "Interfaces/Interactable.h"
 #include "InteractionComponent.generated.h"
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class CHIPPY_API UInteractionComponent : public UActorComponent
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UInteractionComponent();
-    virtual void BeginPlay() override;
-    virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	UInteractionComponent();
 
-    virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual void BeginPlay() override;
 
-    /*** Interact logic ***/
-    
-    UFUNCTION()
-    void PerformLineTrace();
+	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
 
-    UFUNCTION()
-    void Interact();
+	// Initiates interaction with currently interactable actor
+	UFUNCTION()
+	void Interact();
 
-    UFUNCTION(Server, unreliable)
-    void SER_Interact(AActor* inInteractableActor);
+	// Performs line trace to detect interactable objects
+	UFUNCTION()
+	void PerformLineTrace();
 
-    /*** Carry logic ***/
-    void CarryProduct(AProduct* Product);
+	// Product carrying handler
+	void CarryProduct(AProduct* Product);
 
-    UPROPERTY(Replicated)
-    bool isCarryingProduct = false;
+	// object dropping handler
+	void DropProduct();
 
-    UPROPERTY(Replicated)
-    AProduct* CarriedProduct;
-    
-    void DropProduct();
-    UFUNCTION(Server, unreliable)
-    void SER_DropProduct();
-    
 protected:
-    UPROPERTY()
-    AActor* OverlappingActor;
 
-    UPROPERTY()
-    TScriptInterface<IInteractable> InteractableInterface;
+	//clear reference of previously interactable object
+	void ClearInteractableRef();
+	// Server-side interaction handler
+	UFUNCTION(Server, unreliable)
+	void SER_Interact(AActor* inInteractableActor);
 
-    UPROPERTY()
-    AchippyCharacter* OwnerCharacter;
+	// Server implementation for dropping carried product with physics impulse
+	UFUNCTION(Server, unreliable)
+	void SER_DropProduct();
 
-    UPROPERTY()
-    UCameraComponent* CameraComponent;
+	//Checks if player is already carrying an object
+	UPROPERTY(Replicated)
+	bool isCarryingProduct = false;
 
-    UPROPERTY(EditAnywhere, Category = "Interaction")
-    float TraceDistance = 1500.0f;
+	//Reference to currently carried product
+	UPROPERTY(Replicated)
+	AProduct* CarriedProduct;
 
-private:
-    UFUNCTION()
-    void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-        int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	// owning actor's references
+	UPROPERTY()
+	AchippyCharacter* OwnerCharacter;
 
-    UFUNCTION()
-    void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-        int32 OtherBodyIndex);
+	UPROPERTY()
+	UCameraComponent* CameraComponent;
+
+	// Currently line-traced object properties
+	UPROPERTY()
+	AActor* OverlappingActor;
+
+	UPROPERTY()
+	TScriptInterface<IInteractable> InteractableInterface;
+
+	// adjustable data from blueprints
+	UPROPERTY(EditAnywhere, Category = "Interaction")
+	float TraceDistance = 1500.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Interaction")
+	float TraceLoopTime = 0.2f;
 };

@@ -3,41 +3,67 @@
 
 #include "Actors/Product.h"
 
-#include "SkeletonTreeBuilder.h"
 #include "ActorComponents/InteractionComponent.h"
+#include "Kismet/GameplayStatics.h"
 
-// Sets default values
 AProduct::AProduct()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
-	if (HasAuthority())
-	{
-		SphereComponent->SetSimulatePhysics(true);
-		SetActorEnableCollision(true);
-	}
 }
 
 void AProduct::BeginPlay()
 {
 	Super::BeginPlay();
-	AssignedProduct.Mesh = AssignedProductMesh->GetStaticMesh();
+
+	//Set properties server side
+	if (HasAuthority())
+	{
+		SphereComponent->SetSimulatePhysics(true);
+		SphereComponent->OnComponentHit.AddDynamic(this, &ThisClass::OnHit);
+		SetActorEnableCollision(true);
+	}
+
+	if (AssignedProductMesh)
+		AssignedProduct.Mesh = AssignedProductMesh->GetSkeletalMeshAsset();
 }
 
-void AProduct::Init(FProductInfo inAssignedProduct)
-{
-	Super::Init(inAssignedProduct);
-}
 
-
+// Inherits interaction functionality from Item and adds to it carry mechanic
 void AProduct::Interact(AchippyCharacter* InteractingCharacter)
 {
-	IInteractable::Interact(InteractingCharacter);
+	AItem::Interact(InteractingCharacter);
 
+	// Fires an event in the owning machine to handle product release from it
 	ProductReleasedDelegate.ExecuteIfBound();
+
+	// Initiate carrying mechanic
 	InteractingCharacter->GetInteractionComponent()->CarryProduct(this);
+
+	//Play carry-sfx on server and clients
+	MC_PlaySoundEffect(CarrySoundEffect);
 }
 
+// Display overlay material if the item is interactable
+void AProduct::ControlOverlayMaterial(bool inState)
+{
+	Super::ControlOverlayMaterial(inState);
+	inState
+		? AssignedProductMesh->SetOverlayMaterial(OverlayMaterialRef)
+		: AssignedProductMesh->SetOverlayMaterial(nullptr);
+}
+
+void AProduct::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+                     FVector NormalImpulse, const FHitResult& Hit)
+{
+	if (isDropped && HitSoundEffect)
+	{
+		//Play drop-sfx on server and clients
+		MC_PlaySoundEffect(HitSoundEffect);
+		isDropped = false;
+	}
+}
+
+// Handles changes to products client-side
 void AProduct::MC_CarryProductEffects_Implementation(bool inState)
 {
 	SetActorEnableCollision(inState);

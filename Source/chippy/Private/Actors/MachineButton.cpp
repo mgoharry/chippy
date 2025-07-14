@@ -1,6 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Actors/MachineButton.h"
 #include "Actors/ColoringMachine.h"
 #include "Net/UnrealNetwork.h"
@@ -23,20 +20,25 @@ void AMachineButton::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//initialize interp to movement component to quickly handle press animations
 	MovementComponent = GetComponentByClass<UInterpToMovementComponent>();
 
-	InitialMesh = AssignedProductMesh->GetStaticMesh();
+	//assign preview mesh as the default initial mesh set from blueprints
+	InitialMesh = AssignedProductMesh->GetSkeletalMeshAsset();
 
+	//set default color in case it's just a create button
 	if (GetButtonType() == EButtonType::EBT_Create) MaterialColor = InitialColor;
 
+	// creates and initializes dynamic materials for both button and assigned product meshes
 	CreateDynamicMaterial();
 }
 
 
+// Handles interaction with the button, processing different button types (Create/Chip/Color)
+// @param InteractingCharacter - The character that triggered the interaction
 void AMachineButton::Interact(AchippyCharacter* InteractingCharacter)
 {
-	IInteractable::Interact(InteractingCharacter);
-
+	AItem::Interact(InteractingCharacter);
 	// set the owner of the button to the actor that is interacting with it
 	SetOwner(InteractingCharacter);
 	if (MovementComponent)
@@ -47,13 +49,16 @@ void AMachineButton::Interact(AchippyCharacter* InteractingCharacter)
 		                                false);
 	}
 
+	MC_PlaySoundEffect(ClickSoundEffect);
+
+	//Handles interaction based on the button's type
 	switch (GetButtonType())
 	{
 	case EButtonType::EBT_Create:
 		GetWorld()->SpawnActor<AProduct>(ProductClass, ProductSpawnLocation->GetComponentTransform());
 		break;
 	case EButtonType::EBT_Chip:
-		AssignedProduct.Mesh = AssignedProductMesh->GetStaticMesh();
+		AssignedProduct.Mesh = AssignedProductMesh->GetSkeletalMeshAsset();
 		break;
 
 	case EButtonType::EBT_Color:
@@ -64,49 +69,64 @@ void AMachineButton::Interact(AchippyCharacter* InteractingCharacter)
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Emerald, FString::Printf(TEXT("Default!")));
 	}
 
-	//AssignedProduct.Mesh = AssignedProductMesh->GetStaticMesh();
-	//AssignedProduct.Color.RGBA = MaterialColor;
-	if (!InteractingCharacter) return;
-
+	//fire a delegate, so the machine can easily know this button was pressed
+	//also sends product info with it to be correctly modified
 	MachineButtonActivatedDelegate.ExecuteIfBound(AssignedProduct);
 }
 
+// Handles the reset of button press animation
 void AMachineButton::ResetPressTimer()
 {
 	PressHandle.Invalidate();
 	MovementComponent->StopMovementImmediately();
 }
 
+// Initializes the button with product information, setting up the mesh
 void AMachineButton::Init(FProductInfo inAssignedProduct)
 {
 	Super::Init(inAssignedProduct);
 
+	AssignedProductMesh->SetSkeletalMeshAsset(AssignedProduct.Mesh.LoadSynchronous());
+
+	ReplicatedSkeletalMesh = inAssignedProduct.Mesh.LoadSynchronous();
+
 	MaterialColor = InitialColor;
 
+	//Sets button's color 
 	if (ButtonDynamicMaterial)
 		ButtonDynamicMaterial->SetVectorParameterValue("BaseColor", MaterialColor);
 
+	//Sets preview mesh's color
 	if (AssignedMeshMaterial)
 		AssignedMeshMaterial->SetVectorParameterValue("BaseColor", MaterialColor);
 }
 
+// Initializes the button with color information
 void AMachineButton::Init(FColorInfo inAssignedColor)
 {
 	MaterialColor = inAssignedColor.RGBA;
 
+	//Sets preview mesh's color
 	if (AssignedMeshMaterial)
 		AssignedMeshMaterial->SetVectorParameterValue("BaseColor", MaterialColor);
 
+	//Sets button's color 
 	if (ButtonDynamicMaterial)
 		ButtonDynamicMaterial->SetVectorParameterValue("BaseColor", MaterialColor);
 }
 
-void AMachineButton::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
+// Display overlay material if the item is interactable
+void AMachineButton::ControlOverlayMaterial(bool inState)
 {
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(AMachineButton, MaterialColor)
+	Super::ControlOverlayMaterial(inState);
+	inState
+		? ButtonMesh->SetOverlayMaterial(OverlayMaterialRef)
+		: ButtonMesh->SetOverlayMaterial(nullptr);
 }
 
+
+// Creates and initializes dynamic materials for both button and assigned product meshes
+// Sets up material instances for color modification
 void AMachineButton::CreateDynamicMaterial()
 {
 	if (!ButtonDynamicMaterial && ButtonMesh)
@@ -136,6 +156,7 @@ void AMachineButton::CreateDynamicMaterial()
 	}
 }
 
+// Updates the preview mesh based on the button type and product information
 void AMachineButton::AssignProductMeshToPreview(FProductInfo inProductInfo)
 {
 	if (!inProductInfo.Mesh) return;
@@ -152,7 +173,10 @@ void AMachineButton::AssignProductMeshToPreview(FProductInfo inProductInfo)
 
 	case EButtonType::EBT_Color:
 		AssignedProduct = inProductInfo;
-		AssignedProductMesh->SetStaticMesh(inProductInfo.Mesh.LoadSynchronous());
+		AssignedProductMesh->SetSkeletalMesh(inProductInfo.Mesh.LoadSynchronous());
+		ProductAnimationAsset = AssignedProduct.Animation;
+		ReplicatedSkeletalMesh = inProductInfo.Mesh.LoadSynchronous();
+		AssignedProductMesh->PlayAnimation(AssignedProduct.Animation, true);
 		break;
 
 	default:
@@ -160,6 +184,8 @@ void AMachineButton::AssignProductMeshToPreview(FProductInfo inProductInfo)
 	}
 }
 
+// Resets the preview mesh to initial state based on button type
+// Restores default colors and meshes
 void AMachineButton::RemoveProductPreviewMesh()
 {
 	switch (GetButtonType())
@@ -174,7 +200,12 @@ void AMachineButton::RemoveProductPreviewMesh()
 
 	case EButtonType::EBT_Color:
 		AssignedProduct = FProductInfo();
-		if (InitialMesh) AssignedProductMesh->SetStaticMesh(InitialMesh);
+		if (InitialMesh)
+		{
+			AssignedProductMesh->SetSkeletalMesh(InitialMesh);
+			ProductAnimationAsset = nullptr;
+			ReplicatedSkeletalMesh = InitialMesh;
+		}
 		break;
 
 	default:

@@ -28,9 +28,15 @@ public:
 	UPROPERTY()
 	class AMainGameMode* MainGameMode;
 
+	//Accesses HUD to create and add a new order card widget
 	UFUNCTION(Client, Unreliable)
-	void AddOrderCard(int OrderID,FProductInfo OrderInfo);
+	void AddOrderCard(int OrderID, FProductInfo OrderInfo);
 
+	//Accesses the HUD when an order is completed and removes the associated order card
 	UFUNCTION(Client, Unreliable)
 	void UpdateOrderCard(int OrderID, float inOrderPay, float inTotalBudget);
+
+	//Accesses HUD to view a wrong order animation
+	UFUNCTION(Client, Unreliable)
+	void WrongOrder();
 };

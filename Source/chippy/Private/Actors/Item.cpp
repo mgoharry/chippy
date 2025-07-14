@@ -1,20 +1,17 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include <Actors/Item.h>
 
+#include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 
 // Sets default values
 AItem::AItem()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere Component"));
 	RootComponent = SphereComponent;
 
-	AssignedProductMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Assigned Product Mesh"));
+	AssignedProductMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Assigned Product Mesh"));
 	AssignedProductMesh->SetupAttachment(RootComponent);
 
 	bReplicates = true;
@@ -30,22 +27,29 @@ void AItem::BeginPlay()
 	UMaterialInterface* BaseMaterial = AssignedProductMesh->GetMaterial(0);
 	if (BaseMaterial)
 	{
-		DynamicMaterial = UMaterialInstanceDynamic::Create(BaseMaterial, this);
-		AssignedProductMesh->SetMaterial(0, DynamicMaterial);
+		ProductDynamicMaterial = UMaterialInstanceDynamic::Create(BaseMaterial, this);
+		AssignedProductMesh->SetMaterial(0, ProductDynamicMaterial);
 	}
 }
 
+/**
+ * Initializes the item with product information
+ * inAssignedProduct - Product information containing mesh, color and other properties
+ */
 void AItem::Init(FProductInfo inAssignedProduct)
 {
 	if (inAssignedProduct.Mesh)
 	{
 		AssignedProduct = inAssignedProduct;
 		MaterialColor = inAssignedProduct.Color.RGBA;
+		ProductAnimationAsset = AssignedProduct.Animation;
+		ReplicatedSkeletalMesh = inAssignedProduct.Mesh.LoadSynchronous();
 
-		AssignedProductMesh->SetStaticMesh(AssignedProduct.Mesh.LoadSynchronous());
+		AssignedProductMesh->SetSkeletalMeshAsset(AssignedProduct.Mesh.LoadSynchronous());
+		AssignedProductMesh->PlayAnimation(AssignedProduct.Animation, true);
 
-		if (DynamicMaterial)
-			DynamicMaterial->SetVectorParameterValue("BaseColor", MaterialColor);
+		if (ProductDynamicMaterial)
+			ProductDynamicMaterial->SetVectorParameterValue("BaseColor", MaterialColor);
 	}
 	else
 	{
@@ -53,28 +57,57 @@ void AItem::Init(FProductInfo inAssignedProduct)
 	}
 }
 
+/**
+ * Handles character interaction with the item
+ * InteractingCharacter is the character that is interacting with this item
+ */
 void AItem::Interact(AchippyCharacter* InteractingCharacter)
 {
 	IInteractable::Interact(InteractingCharacter);
+
+	if (!InteractingCharacter) return;
+	AssignedProduct.OwnerCharacter = InteractingCharacter;
+	InteractingCharacter->ChippyPlayAnimations(InteractAnimation);
 }
 
+// Display overlay material if the item is interactable
+void AItem::ControlOverlayMaterial(bool inState)
+{
+	IInteractable::ControlOverlayMaterial(inState);
+}
+
+/**
+ * Replication callback for color changes
+ * Updates the material color when replicated from server to all clients
+ */
 void AItem::OnRep_Color()
 {
-	if (DynamicMaterial)
+	if (ProductDynamicMaterial)
 	{
-		DynamicMaterial->SetVectorParameterValue("BaseColor", MaterialColor);
+		ProductDynamicMaterial->SetVectorParameterValue("BaseColor", MaterialColor);
 	}
 }
 
-// Called every frame
-void AItem::Tick(float DeltaTime)
+void AItem::OnRep_Mesh()
 {
-	Super::Tick(DeltaTime);
+	if (AssignedProductMesh)
+	{
+		AssignedProductMesh->SetSkeletalMeshAsset(ReplicatedSkeletalMesh);
+		if (ProductAnimationAsset) AssignedProductMesh->PlayAnimation(ProductAnimationAsset, true);
+	}
 }
+
+void AItem::MC_PlaySoundEffect_Implementation(USoundBase* SoundEffect)
+{
+	if (SoundEffect) UGameplayStatics::PlaySoundAtLocation(this, SoundEffect, GetActorLocation());
+}
+
 
 void AItem::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(AItem, MaterialColor);
+	DOREPLIFETIME(AItem, ReplicatedSkeletalMesh);
+	DOREPLIFETIME(AItem, ProductAnimationAsset);
 }

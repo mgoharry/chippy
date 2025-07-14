@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -10,6 +8,9 @@
 #include "Interfaces/Interactable.h"
 #include "Item.generated.h"
 
+
+// Represents an interactive item in the game world that can be picked up and used
+// Handles mesh representation, material changes, and interaction logic
 
 UCLASS()
 class CHIPPY_API AItem : public AActor, public IInteractable
@@ -22,35 +23,60 @@ public:
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
-
+	// Initialize the item with product information
 	virtual void Init(FProductInfo inAssignedProduct);
 
+	//Handle interaction with a character (IInteractable interface implementation)
 	virtual void Interact(AchippyCharacter* InteractingCharacter) override;
+	// Display overlay material if the item is interactable
+	virtual void ControlOverlayMaterial(bool inState) override;
 
 	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
 
-	UPROPERTY()
-	UMaterialInstanceDynamic* DynamicMaterial;
+	// Collision and mesh components
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+	USphereComponent* SphereComponent;
 
-	UPROPERTY(ReplicatedUsing = OnRep_Color)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+	USkeletalMeshComponent* AssignedProductMesh;
+
+protected:
+	// Material and mesh handling properties
+	UPROPERTY()
+	UMaterialInstanceDynamic* ProductDynamicMaterial;
+
+	UPROPERTY(ReplicatedUsing = "OnRep_Color")
 	FColor MaterialColor;
 
+	UPROPERTY(ReplicatedUsing = "OnRep_Mesh")
+	USkeletalMesh* ReplicatedSkeletalMesh;
+	UPROPERTY(Replicated)
+	UAnimationAsset* ProductAnimationAsset;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Material")
+	UMaterialInterface* OverlayMaterialRef;
+
+	//Replicate material changes to clients
 	UFUNCTION()
 	virtual void OnRep_Color();
 
-protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	USphereComponent* SphereComponent;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UStaticMeshComponent* AssignedProductMesh;
+	//Replicate mesh changes to clients
+	UFUNCTION()
+	virtual void OnRep_Mesh();
 
 public:
+	// Product data
 	UPROPERTY()
 	FProductInfo AssignedProduct;
-	/** Returns InteractionComponent subobject **/
+
+	// Character Animation to play when they interact
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation")
+	UAnimMontage* InteractAnimation;
+
+	//play sounds to clients
+	UFUNCTION(NetMulticast, Unreliable)
+	void MC_PlaySoundEffect(USoundBase* SoundEffect);
+	// Returns SphereComponent
 	FORCEINLINE USphereComponent* GetSphereComponent() const { return SphereComponent; }
 };

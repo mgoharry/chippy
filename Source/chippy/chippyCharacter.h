@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "NiagaraComponent.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
 #include "chippyCharacter.generated.h"
@@ -28,6 +29,7 @@ class AchippyCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FollowCamera;
 
+	/** component to handle all character's interaction logic **/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Interaction, meta = (AllowPrivateAccess = "true"))
 	class UInteractionComponent* InteractionComponent;
 
@@ -39,9 +41,11 @@ class AchippyCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* JumpAction;
 
+	/** Interact Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* InteractAction;
 
+	/** Drop Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* DropAction;
 
@@ -65,8 +69,10 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 
+	/** Called for interacting input */
 	void HandleInteract();
 
+	/** Called for dropping input */
 	void HandleDrop();
 
 protected:
@@ -81,4 +87,20 @@ public:
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 	/** Returns InteractionComponent subobject **/
 	FORCEINLINE class UInteractionComponent* GetInteractionComponent() const { return InteractionComponent; }
+
+	/*** handle animations and vfx on clients' sides ***/
+	void ChippyPlayAnimations(UAnimMontage* AnimationToPlay);
+
+	UFUNCTION(NetMulticast, Unreliable)
+	void MC_ChippyPlayAnimations(UAnimMontage* AnimationToPlay);
+
+	void ChippyPlayVFX(UNiagaraComponent* VFXToPlay);
+
+	UFUNCTION(NetMulticast, Unreliable)
+	void MC_ChippyPlayVFX(UNiagaraComponent* VFXToPlay);
+
+	void ChippyPlaySFX(USoundBase* SFXToPlay, FVector Location);
+
+	UFUNCTION(NetMulticast, Unreliable)
+	void MC_ChippyPlaySFX(USoundBase* SFXToPlay, FVector Location);
 };

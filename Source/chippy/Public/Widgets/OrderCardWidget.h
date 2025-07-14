@@ -22,4 +22,8 @@ public:
 
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* ProductInfo;
+
+	//bp native event to remove card and play animation
+	UFUNCTION(BlueprintNativeEvent)
+	void BP_RemoveCard();
 };

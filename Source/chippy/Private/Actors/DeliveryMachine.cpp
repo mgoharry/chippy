@@ -8,19 +8,23 @@ void ADeliveryMachine::BeginPlay()
 	Super::BeginPlay();
 }
 
+// Handle actor beginning overlap with machine
 void ADeliveryMachine::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
                                       UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
                                       const FHitResult& SweepResult)
 {
 	Super::OnOverlapBegin(OverlappedComp, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
 
-	if (CurrentProductRef && HasAuthority())
+	if (HasAuthority() && CurrentProductRef)
 	{
 		if (MainGameMode)
 		{
-			MainGameMode->CheckOrderValidity(CurrentProductRef->AssignedProduct);
+			
+			//destroys the current product and sends order details to game mode to check validity
+			MainGameMode->CheckOrderValidity(CurrentProductRef->AssignedProduct, this);
 			CurrentProductRef->Destroy();
 			CurrentProductRef = nullptr;
+			//change the machine state to be available for other products
 			SetMachineState(EMachineState::EMS_Idle);
 		}
 	}

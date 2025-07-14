@@ -28,17 +28,25 @@ public:
 	UPROPERTY(meta = (BindWidget), BlueprintReadWrite, EditAnywhere)
 	UTextBlock* BudgetEditText;
 
-
+	//Order card widget to add to vertical box 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config")
 	TSubclassOf<UOrderCardWidget> OrderCardWidgetClass;
 
+	//Array of current active orders
 	UPROPERTY()
 	TMap<int, UOrderCardWidget*> ActiveOrdersWidgets;
 
+	//Creates and adds a new order card widget to the HUD
 	void AddOrderCard(int OrderID, FProductInfo OrderInfo);
 
+	//Updates the HUD when an order is completed and removes the associated order card
 	void UpdateAndRemoveOrder(int OrderID, float inOrderPay, float inTotalBudget);
 
+	//Blueprint native event for playing order payment animations
 	UFUNCTION(BlueprintNativeEvent)
 	void OrderPayAnimation(float inOrderPay);
+
+	//Blueprint native event for playing order wrong animations
+	UFUNCTION(BlueprintNativeEvent)
+	void WrongOrderAnimation();
 };

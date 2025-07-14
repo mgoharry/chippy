@@ -1,7 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "chippyGameMode.h"
-#include "chippyCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
 AchippyGameMode::AchippyGameMode()
